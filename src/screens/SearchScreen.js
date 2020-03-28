@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect } from 'react';
-import { Text, StyleSheet, View, Flatlist, Button, TextInput, ToucableOpacity } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, Flatlist, Button, TextInput, ToucableOpacity } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ResultsList from '../components/ResultsList';
 import yelp from '../api/yelp';
@@ -16,21 +16,26 @@ const SearchScreen = () => {
 		})
 	}
 
-	console.log(results.map(result => result.price))
+	// console.log(results[0])
 	return (
-		<View>
+		<View style={{flex:1}}>
 			<SearchBar term={term} onTermChange={newTerm => setTerm(newTerm)} onTermSubmit={() => searchApi(term)} />
 			<Text>We Have found {results.length} resturants.</Text>
+			<ScrollView> 
 			<ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
 			<ResultsList results={filterResultsByPrice('$$')} title="Bit Pricer" />
 			<ResultsList results={filterResultsByPrice('$$$')} title="Big Spender!" />
+
+			</ScrollView>
 			
 			{errorMessage ? <Text>{errorMessage}</Text> : null}
 		</View>
 	);
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+});
 
 export default SearchScreen;
 
