@@ -1,19 +1,30 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { Text, StyleSheet, View, Flatlist, Button, TextInput, ToucableOpacity } from 'react-native';
 import SearchBar from '../components/SearchBar';
+import ResultsList from '../components/ResultsList';
 import yelp from '../api/yelp';
 import useResults from '../hooks/useResults';
+
 
 const SearchScreen = () => {
 	const [term, setTerm] = useState('');
 	const [searchApi, results, errorMessage] = useResults();
+	
+	const filterResultsByPrice = (price) => {
+		return results.filter( result => {
+			return result.price === price
+		})
+	}
 
+	console.log(results.map(result => result.price))
 	return (
 		<View>
 			<SearchBar term={term} onTermChange={newTerm => setTerm(newTerm)} onTermSubmit={() => searchApi(term)} />
 			<Text>We Have found {results.length} resturants.</Text>
-			{/* <Flatlist data={results} renderItem={(item)=> item.name}/>  */}
-			{/* {results.map((item) => <Text>{item.name}</Text>)} */}
+			<ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
+			<ResultsList results={filterResultsByPrice('$$')} title="Bit Pricer" />
+			<ResultsList results={filterResultsByPrice('$$$')} title="Big Spender!" />
+			
 			{errorMessage ? <Text>{errorMessage}</Text> : null}
 		</View>
 	);
@@ -22,6 +33,14 @@ const SearchScreen = () => {
 const styles = StyleSheet.create({});
 
 export default SearchScreen;
+
+
+
+
+
+
+
+
 // import React, { useState, useReducer, useEffect } from 'react';
 // import { Text, StyleSheet, View, Flatlist, Button, TextInput, ToucableOpacity } from 'react-native';
 // import SearchBar from '../components/SearchBar';
