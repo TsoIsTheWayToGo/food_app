@@ -37,3 +37,10 @@ Our imports in the upcoming lecture will now look like this:
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+
+
+
+Create
+Read
+Update
+Destroy
